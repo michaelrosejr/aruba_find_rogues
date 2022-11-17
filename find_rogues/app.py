@@ -45,7 +45,7 @@ def get_suspected_rogues() -> Optional[Dict]:
     apiMethod = "GET"
 
     return central.command(apiMethod=apiMethod, apiPath=apiPath, apiParams=apiParams)
-    
+
 all_rapids_types = get_rogues()['msg']['rogue_aps'] + get_suspected_rogues()['msg']['suspect_aps'] #type: ignore
 len_all_rapids_types = len(all_rapids_types)
 
@@ -55,7 +55,7 @@ def find_ssids(fdata):
     # for d in fdata:
     #     if 'ssid' in d:
     #         print(d['ssid'])
-    
+
     rogue_ssid_matches = []
 
     for ea in fdata:
