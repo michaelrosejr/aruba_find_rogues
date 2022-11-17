@@ -1,7 +1,6 @@
 .env.yaml
 .env
 
-temp/*
 tok*.json
 
 .DS_Store
