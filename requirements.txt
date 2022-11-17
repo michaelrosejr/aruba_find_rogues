@@ -1,13 +1,17 @@
 certifi==2022.9.24; python_version >= "3.7" and python_version < "4"
 charset-normalizer==2.1.1; python_version >= "3.7" and python_version < "4" and python_full_version >= "3.6.0"
 commonmark==0.9.1; python_full_version >= "3.6.3" and python_full_version < "4.0.0"
+fuzzywuzzy==0.18.0
 idna==3.4; python_version >= "3.7" and python_version < "4"
+levenshtein==0.20.8; python_version >= "3.6"
 pendulum==2.1.2; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.5.0")
 pycentral==0.0.3; python_version >= "3.6"
 pygments==2.13.0; python_full_version >= "3.6.3" and python_full_version < "4.0.0" and python_version >= "3.6"
 python-dateutil==2.8.2; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0"
+python-levenshtein==0.20.8; python_version >= "3.6"
 pytzdata==2020.1; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0"
 pyyaml==6.0; python_version >= "3.6"
+rapidfuzz==2.13.2; python_version >= "3.7"
 requests==2.28.1; python_version >= "3.7" and python_version < "4"
 rich==12.6.0; python_full_version >= "3.6.3" and python_full_version < "4.0.0"
 six==1.16.0; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0"

@@ -6,3 +6,12 @@ repos:
     -   id: check-yaml
     -   id: end-of-file-fixer
     -   id: trailing-whitespace
+-   repo: local
+    hooks:
+    - id: update-requirements-txt
+      name: update-requirements-txt
+      description: 'Generate requirements.txt based on poetry.lock'
+      entry: poetry
+      args: [export, --without-hashes, --format, requirements.txt, --output, requirements.txt]
+      language: system
+      pass_filenames: false
