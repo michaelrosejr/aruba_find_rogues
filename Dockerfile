@@ -1,5 +1,6 @@
 FROM python:3.11-slim-bullseye AS python-base
 ENV PYTHONUNBUFFERED 1
+ENV TERM xterm-256color
 RUN pip install --upgrade pip
 
 RUN mkdir /app

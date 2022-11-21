@@ -1,1 +1,1 @@
-docker build . --tags find_rogues
+docker build . --tag find_rogues

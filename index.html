@@ -1,0 +1,904 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wireless Rogue Alert</title>
+    <style type="text/css">
+        /* -------------------------------------
+          GLOBAL RESETS
+      ------------------------------------- */
+
+        /*All the styling goes here*/
+
+        img {
+            border: none;
+            -ms-interpolation-mode: bicubic;
+            max-width: 100%;
+        }
+
+        body {
+            background-color: #f6f6f6;
+            font-family: sans-serif;
+            -webkit-font-smoothing: antialiased;
+            font-size: 14px;
+            line-height: 1.4;
+            margin: 0;
+            padding: 0;
+            -ms-text-size-adjust: 100%;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        table {
+            border-collapse: separate;
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+            width: 100%;
+        }
+
+        table td {
+            font-family: sans-serif;
+            font-size: 14px;
+            vertical-align: top;
+        }
+
+        /* -------------------------------------
+          BODY & CONTAINER
+      ------------------------------------- */
+
+        .body {
+            background-color: #f6f6f6;
+            width: 100%;
+        }
+
+        /* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */
+        .container {
+            display: block;
+            margin: 0 auto !important;
+            /* makes it centered */
+            max-width: 1080px;
+            padding: 10px;
+            width: 1080px;
+        }
+
+        /* This should also be a block element, so that it will fill 100% of the .container */
+        .content {
+            box-sizing: border-box;
+            display: block;
+            margin: 0 auto;
+            max-width: 580px;
+            padding: 10px;
+        }
+
+        /* -------------------------------------
+          HEADER, FOOTER, MAIN
+      ------------------------------------- */
+        .main {
+            background: #ffffff;
+            border-radius: 3px;
+            width: 100%;
+        }
+
+        .wrapper {
+            box-sizing: border-box;
+            padding: 20px;
+        }
+
+        .content-block {
+            padding-bottom: 10px;
+            padding-top: 10px;
+        }
+
+        .footer {
+            clear: both;
+            margin-top: 10px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .footer td,
+        .footer p,
+        .footer span,
+        .footer a {
+            color: #999999;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* -------------------------------------
+          TYPOGRAPHY
+      ------------------------------------- */
+        h1,
+        h2,
+        h3,
+        h4 {
+            color: #000000;
+            font-family: sans-serif;
+            font-weight: 400;
+            line-height: 1.4;
+            margin: 0;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 35px;
+            font-weight: 300;
+            text-align: center;
+            text-transform: capitalize;
+        }
+
+        p,
+        ul,
+        ol {
+            font-family: sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            margin: 0;
+            margin-bottom: 15px;
+        }
+
+        p li,
+        ul li,
+        ol li {
+            list-style-position: inside;
+            margin-left: 5px;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: underline;
+        }
+
+        /* -------------------------------------
+          BUTTONS
+      ------------------------------------- */
+        .btn {
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .btn>tbody>tr>td {
+            padding-bottom: 15px;
+        }
+
+        .btn table {
+            width: auto;
+        }
+
+        .btn table td {
+            background-color: #ffffff;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .btn a {
+            background-color: #ffffff;
+            border: solid 1px #3498db;
+            border-radius: 5px;
+            box-sizing: border-box;
+            color: #3498db;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 0;
+            padding: 12px 25px;
+            text-decoration: none;
+            text-transform: capitalize;
+        }
+
+        .btn-primary table td {
+            background-color: #3498db;
+        }
+
+        .btn-primary a {
+            background-color: #3498db;
+            border-color: #3498db;
+            color: #ffffff;
+        }
+
+        /* -------------------------------------
+          OTHER STYLES THAT MIGHT BE USEFUL
+      ------------------------------------- */
+        .last {
+            margin-bottom: 0;
+        }
+
+        .first {
+            margin-top: 0;
+        }
+
+        .align-center {
+            text-align: center;
+        }
+
+        .align-right {
+            text-align: right;
+        }
+
+        .align-left {
+            text-align: left;
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        .mt0 {
+            margin-top: 0;
+        }
+
+        .mb0 {
+            margin-bottom: 0;
+        }
+
+        .preheader {
+            color: transparent;
+            display: none;
+            height: 0;
+            max-height: 0;
+            max-width: 0;
+            opacity: 0;
+            overflow: hidden;
+            mso-hide: all;
+            visibility: hidden;
+            width: 0;
+        }
+
+        .powered-by a {
+            text-decoration: none;
+        }
+
+        hr {
+            border: 0;
+            border-bottom: 1px solid #f6f6f6;
+            margin: 20px 0;
+        }
+
+        .emailbody {
+            border-collapse: collapse;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            color: #000000;
+
+        }
+
+        .emailbody .type {
+            font-weight: 600;
+            color: #189EC4;
+        }
+
+        .emailbody .ssid {
+            font-weight: 600;
+            color: #09a564;
+        }
+
+        th {
+            background-color: #222222;
+            color: white;
+        }
+
+        .center {
+            font-weight: 1000;
+            font-size: 20px;
+            text-align: center;
+            margin: auto;
+            border: none;
+            padding: 0px 0px 10px 0px;
+            width: 850px;
+            background-color: white;
+            line-height: 1.5;
+        }
+
+        .footer {
+            display: block;
+            margin: 0 auto !important;
+            margin: auto;
+            text-align: center;
+        }
+
+        /* -------------------------------------
+          RESPONSIVE AND MOBILE FRIENDLY STYLES
+      ------------------------------------- */
+        @media only screen and (max-width: 620px) {
+            table.body h1 {
+                font-size: 28px !important;
+                margin-bottom: 10px !important;
+            }
+
+            table.body p,
+            table.body ul,
+            table.body ol,
+            table.body td,
+            table.body span,
+            table.body a {
+                font-size: 16px !important;
+            }
+
+            table.body .wrapper,
+            table.body .article {
+                padding: 10px !important;
+            }
+
+            table.body .content {
+                padding: 0 !important;
+            }
+
+            table.body .container {
+                padding: 0 !important;
+                width: 100% !important;
+            }
+
+            table.body .main {
+                border-left-width: 0 !important;
+                border-radius: 0 !important;
+                border-right-width: 0 !important;
+            }
+
+            table.body .btn table {
+                width: 100% !important;
+            }
+
+            table.body .btn a {
+                width: 100% !important;
+            }
+
+            table.body .img-responsive {
+                height: auto !important;
+                max-width: 100% !important;
+                width: auto !important;
+            }
+
+        }
+
+        /* -------------------------------------
+          PRESERVE THESE STYLES IN THE HEAD
+      ------------------------------------- */
+        @media all {
+            .ExternalClass {
+                width: 100%;
+            }
+
+            .ExternalClass,
+            .ExternalClass p,
+            .ExternalClass span,
+            .ExternalClass font,
+            .ExternalClass td,
+            .ExternalClass div {
+                line-height: 100%;
+            }
+
+            .apple-link a {
+                color: inherit !important;
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                text-decoration: none !important;
+            }
+
+            #MessageViewBody a {
+                color: inherit;
+                text-decoration: none;
+                font-size: inherit;
+                font-family: inherit;
+                font-weight: inherit;
+                line-height: inherit;
+            }
+
+            .btn-primary table td:hover {
+                background-color: #34495e !important;
+            }
+
+            .btn-primary a:hover {
+                background-color: #34495e !important;
+                border-color: #34495e !important;
+            }
+        }
+    </style>
+
+    <!-- Targeting Windows Mobile -->
+    <!--[if IEMobile 7]>
+	<style type="text/css">
+	</style>
+	<![endif]-->
+
+    <!-- ***********************************************
+	****************************************************
+	END MOBILE TARGETING
+	****************************************************
+	************************************************ -->
+
+    <!--[if gte mso 9]>
+	<style>
+		/* Target Outlook 2007 and 2010 */
+	</style>
+	<![endif]-->
+</head>
+
+<body>
+    <p>&nbsp;</p>
+    <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
+        <tr>
+            <td>&nbsp;</td>
+            <td class="container">
+                <br role="presentation" class="main">
+                <div class="center">
+                    Rogue Wireless SSIDs found
+                </div>
+                <table role="presentation" cellpadding="5" cellspacing="5" border="1" class="emailbody">
+                    <thead>
+
+                        <tr>
+                            <th>Type</th>
+                            <th>Rogue SSID</th>
+                            <th>Manufacture</th>
+                            <th>Signal</th>
+                            <th>Group</th>
+                            <th>First Seen</th>
+                            <th>Seen By</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td class="type">Rogue</td>
+                            <td class="ssid">SephoraFreeWifi </td>
+                            <td>CradlePoint, Inc </td>
+                            <td>-21 </td>
+                            <td>West -1 </td>
+                            <td>Thursday, 07-Apr-2022 06:41:02 UTC </td>
+                            <td class="ssid">s1262ap3 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">Rogue</td>
+                            <td class="ssid">teamwork </td>
+                            <td>CradlePoint, Inc </td>
+                            <td>-24 </td>
+                            <td>East -2 </td>
+                            <td>Saturday, 11-Dec-2021 02:32:00 UTC </td>
+                            <td class="ssid">s212ap1 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">Rogue</td>
+                            <td class="ssid">Sephora Free WiFi </td>
+                            <td>02:30:44:2B:6B:40 </td>
+                            <td>-19 </td>
+                            <td>East -2 </td>
+                            <td>Friday, 01-Apr-2022 18:37:50 UTC </td>
+                            <td class="ssid">s212ap1 </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                <div class="center">
+                    <div><br /></div>
+                    All Rogue Types found
+                </div>
+                <table role="presentation" cellpadding="5" cellspacing="5" border="1" class="emailbody">
+                    <thead>
+
+                        <tr>
+                            <th>Type</th>
+                            <th>Rogue SSID</th>
+                            <th>Manufacture</th>
+                            <th>Signal</th>
+                            <th>Group</th>
+                            <th>First Seen</th>
+                            <th>Seen By</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td class="type">Rogue</td>
+                            <td class="ssid">Viametrics_351579056785296 </td>
+                            <td>Bluegiga Technologies OY </td>
+                            <td>-62 </td>
+                            <td>East -1 </td>
+                            <td>Saturday, 11-Dec-2021 07:56:51 UTC </td>
+                            <td class="ssid">s120ap2 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">Rogue</td>
+                            <td class="ssid">SephoraFreeWifi </td>
+                            <td>CradlePoint, Inc </td>
+                            <td>-21 </td>
+                            <td>West -1 </td>
+                            <td>Thursday, 07-Apr-2022 06:41:02 UTC </td>
+                            <td class="ssid">s1262ap3 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">Rogue</td>
+                            <td class="ssid">teamwork </td>
+                            <td>CradlePoint, Inc </td>
+                            <td>-24 </td>
+                            <td>East -2 </td>
+                            <td>Saturday, 11-Dec-2021 02:32:00 UTC </td>
+                            <td class="ssid">s212ap1 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">Rogue</td>
+                            <td class="ssid">SAKSGuest </td>
+                            <td>Cisco Systems, Inc </td>
+                            <td>-46 </td>
+                            <td>East -1 </td>
+                            <td>Thursday, 07-Apr-2022 06:41:53 UTC </td>
+                            <td class="ssid">s268ap3 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">Rogue</td>
+                            <td class="ssid">Sephora Free WiFi </td>
+                            <td>02:30:44:2B:6B:40 </td>
+                            <td>-19 </td>
+                            <td>East -2 </td>
+                            <td>Friday, 01-Apr-2022 18:37:50 UTC </td>
+                            <td class="ssid">s212ap1 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">Rogue</td>
+                            <td class="ssid">MySpectrumWiFia0-5G </td>
+                            <td>Sagemcom Broadband SAS </td>
+                            <td>-2 </td>
+                            <td>East -1 </td>
+                            <td>Sunday, 03-Apr-2022 05:08:34 UTC </td>
+                            <td class="ssid">s1836ap3 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">Rogue</td>
+                            <td class="ssid">expertise-temp-969-lab </td>
+                            <td>Aruba, a Hewlett Packard Enterprise Company </td>
+                            <td>-16 </td>
+                            <td>s994-lab </td>
+                            <td>Friday, 22-Apr-2022 19:05:57 UTC </td>
+                            <td class="ssid">s982-ap1-ac </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">Rogue</td>
+                            <td class="ssid">MySpectrumWiFiA4-2G </td>
+                            <td>ASKEY COMPUTER CORP </td>
+                            <td>-30 </td>
+                            <td>West -2 </td>
+                            <td>Thursday, 07-Apr-2022 02:19:27 UTC </td>
+                            <td class="ssid">s674ap2 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">Rogue</td>
+                            <td class="ssid">FREE_SpectrumWiFi </td>
+                            <td>Ruckus Wireless </td>
+                            <td>-46 </td>
+                            <td>West -1 </td>
+                            <td>Thursday, 07-Apr-2022 06:39:22 UTC </td>
+                            <td class="ssid">s032ap1 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">Rogue</td>
+                            <td class="ssid">BELL881 </td>
+                            <td>20:9A:7D:05:09:50 </td>
+                            <td>-22 </td>
+                            <td>Canada -1 </td>
+                            <td>Sunday, 03-Apr-2022 05:08:41 UTC </td>
+                            <td class="ssid">s1520ap2 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">Rogue</td>
+                            <td class="ssid">S5AFULL </td>
+                            <td>Cisco Systems, Inc </td>
+                            <td>-44 </td>
+                            <td>Central </td>
+                            <td>Friday, 19-Aug-2022 20:12:57 UTC </td>
+                            <td class="ssid">s1782ap1 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">Rogue</td>
+                            <td class="ssid">BELL821 </td>
+                            <td>Sagemcom Broadband SAS </td>
+                            <td>-22 </td>
+                            <td>Canada -1 </td>
+                            <td>Wednesday, 20-Jul-2022 17:36:49 UTC </td>
+                            <td class="ssid">s588ap3 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">Rogue</td>
+                            <td class="ssid">MySpectrumWiFi70-5G </td>
+                            <td>Sagemcom Broadband SAS </td>
+                            <td>-28 </td>
+                            <td>East -1 </td>
+                            <td>Tuesday, 19-Apr-2022 15:34:30 UTC </td>
+                            <td class="ssid">s1316ap3 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">Rogue</td>
+                            <td class="ssid">ATT9dQX8Uv </td>
+                            <td>2Wire Inc </td>
+                            <td>-22 </td>
+                            <td>West -2 </td>
+                            <td>Tuesday, 05-Apr-2022 09:12:34 UTC </td>
+                            <td class="ssid">s672ap1 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">Rogue</td>
+                            <td class="ssid"> </td>
+                            <td>ARRIS Group, Inc. </td>
+                            <td>-34 </td>
+                            <td>West -1 </td>
+                            <td>Friday, 23-Sep-2022 12:16:33 UTC </td>
+                            <td class="ssid">s1222ap3 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">Rogue</td>
+                            <td class="ssid">BELL937 </td>
+                            <td>Sagemcom Broadband SAS </td>
+                            <td>-34 </td>
+                            <td>Canada -1 </td>
+                            <td>Tuesday, 05-Jul-2022 15:17:52 UTC </td>
+                            <td class="ssid">s578ap3 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">Rogue</td>
+                            <td class="ssid">ATTdEumQAs </td>
+                            <td>40:E1:E4:2A:82:10 </td>
+                            <td>-21 </td>
+                            <td>East -1 </td>
+                            <td>Monday, 27-Jun-2022 13:38:02 UTC </td>
+                            <td class="ssid">s1104ap1 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">Rogue</td>
+                            <td class="ssid">EVOLVESTORE-4436 </td>
+                            <td>Wistron Neweb Corporation </td>
+                            <td>-27 </td>
+                            <td>East -1 </td>
+                            <td>Saturday, 26-Mar-2022 06:49:21 UTC </td>
+                            <td class="ssid">s1162ap3 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">Rogue</td>
+                            <td class="ssid">One Paseo Retail Guest </td>
+                            <td>Xirrus Inc. </td>
+                            <td>-58 </td>
+                            <td>West -1 </td>
+                            <td>Thursday, 07-Apr-2022 04:54:41 UTC </td>
+                            <td class="ssid">s1222ap3 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">Rogue</td>
+                            <td class="ssid">SMARTIMPULSE-b87e </td>
+                            <td>TP-LINK TECHNOLOGIES CO.,LTD. </td>
+                            <td>-41 </td>
+                            <td>West -2 </td>
+                            <td>Thursday, 07-Apr-2022 06:39:23 UTC </td>
+                            <td class="ssid">s738ap4 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">SuspectRogue</td>
+                            <td class="ssid">MooseWiFi </td>
+                            <td>WatchGuard Technologies, Inc. </td>
+                            <td>-55 </td>
+                            <td>Canada -1 </td>
+                            <td>Thursday, 07-Apr-2022 03:16:45 UTC </td>
+                            <td class="ssid">s502ap6 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">SuspectRogue</td>
+                            <td class="ssid">MooseWiFi </td>
+                            <td>WatchGuard Technologies, Inc. </td>
+                            <td>-53 </td>
+                            <td>Canada -1 </td>
+                            <td>Thursday, 07-Apr-2022 06:39:15 UTC </td>
+                            <td class="ssid">s502ap6 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">SuspectRogue</td>
+                            <td class="ssid">Employee </td>
+                            <td>WatchGuard Technologies, Inc. </td>
+                            <td>-71 </td>
+                            <td>Canada -1 </td>
+                            <td>Thursday, 07-Apr-2022 23:59:02 UTC </td>
+                            <td class="ssid">s536ap3 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">SuspectRogue</td>
+                            <td class="ssid">SUCC_NL2 </td>
+                            <td>WatchGuard Technologies, Inc. </td>
+                            <td>-37 </td>
+                            <td>Canada -1 </td>
+                            <td>Saturday, 07-May-2022 01:37:44 UTC </td>
+                            <td class="ssid">s1538ap2 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">SuspectRogue</td>
+                            <td class="ssid">LTE520218CD0 </td>
+                            <td>ReadyNet </td>
+                            <td>-49 </td>
+                            <td>East -1 </td>
+                            <td>Thursday, 24-Mar-2022 06:50:35 UTC </td>
+                            <td class="ssid">s292ap4 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">SuspectRogue</td>
+                            <td class="ssid">ISAP </td>
+                            <td>BMW AG </td>
+                            <td>-51 </td>
+                            <td>Canada -1 </td>
+                            <td>Thursday, 07-Apr-2022 06:46:50 UTC </td>
+                            <td class="ssid">s1504ap2 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">SuspectRogue</td>
+                            <td class="ssid">Kahala Mall Hotspot </td>
+                            <td>Agere Systems </td>
+                            <td>-43 </td>
+                            <td>Hawaii </td>
+                            <td>Thursday, 07-Apr-2022 18:24:23 UTC </td>
+                            <td class="ssid">s1338ap1 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">SuspectRogue</td>
+                            <td class="ssid">PFChangs </td>
+                            <td>Senao International Co., Ltd. </td>
+                            <td>-48 </td>
+                            <td>East -2 </td>
+                            <td>Tuesday, 05-Apr-2022 09:12:53 UTC </td>
+                            <td class="ssid">s650ap4 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">SuspectRogue</td>
+                            <td class="ssid">EnGeniusE817D4 </td>
+                            <td>Senao International Co., Ltd. </td>
+                            <td>-45 </td>
+                            <td>Mountain </td>
+                            <td>Thursday, 22-Apr-2021 15:28:21 UTC </td>
+                            <td class="ssid">s142ap1 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">SuspectRogue</td>
+                            <td class="ssid">EnGeniusFBBBF4 </td>
+                            <td>Senao International Co., Ltd. </td>
+                            <td>-48 </td>
+                            <td>Mountain </td>
+                            <td>Thursday, 07-Apr-2022 06:41:15 UTC </td>
+                            <td class="ssid">s142ap1 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">SuspectRogue</td>
+                            <td class="ssid">VVTK-662617 </td>
+                            <td>Vivotek, Inc. </td>
+                            <td>-48 </td>
+                            <td>East -2 </td>
+                            <td>Thursday, 07-Apr-2022 06:47:41 UTC </td>
+                            <td class="ssid">s318ap4 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">SuspectRogue</td>
+                            <td class="ssid">speedzone </td>
+                            <td>Colubris Networks </td>
+                            <td>-39 </td>
+                            <td>Central </td>
+                            <td>Thursday, 24-Mar-2022 06:51:44 UTC </td>
+                            <td class="ssid">s130ap1 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">SuspectRogue</td>
+                            <td class="ssid">4G-CPE-388316 </td>
+                            <td>Atheros Communications, Inc. </td>
+                            <td>-48 </td>
+                            <td>East -1 </td>
+                            <td>Wednesday, 12-Oct-2022 14:07:47 UTC </td>
+                            <td class="ssid">s1238ap5 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">SuspectRogue</td>
+                            <td class="ssid">Engineering </td>
+                            <td>Cambium Networks Limited </td>
+                            <td>-40 </td>
+                            <td>West -2 </td>
+                            <td>Thursday, 07-Apr-2022 06:44:19 UTC </td>
+                            <td class="ssid">s1240ap1 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">SuspectRogue</td>
+                            <td class="ssid">#AvenueWiFi </td>
+                            <td>Cambium Networks Limited </td>
+                            <td>-66 </td>
+                            <td>East -2 </td>
+                            <td>Thursday, 07-Apr-2022 06:38:31 UTC </td>
+                            <td class="ssid">s300ap2 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">SuspectRogue</td>
+                            <td class="ssid">directorywifi </td>
+                            <td>Cambium Networks Limited </td>
+                            <td>-1 </td>
+                            <td>West -2 </td>
+                            <td>Friday, 25-Mar-2022 06:25:02 UTC </td>
+                            <td class="ssid">s1240ap2 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">SuspectRogue</td>
+                            <td class="ssid">PFC_AP2 </td>
+                            <td>Cambium Networks Limited </td>
+                            <td>-44 </td>
+                            <td>East -2 </td>
+                            <td>Tuesday, 05-Apr-2022 09:12:56 UTC </td>
+                            <td class="ssid">s650ap3 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">SuspectRogue</td>
+                            <td class="ssid">PFC_Plaza </td>
+                            <td>Cambium Networks Limited </td>
+                            <td>-66 </td>
+                            <td>East -2 </td>
+                            <td>Thursday, 07-Apr-2022 11:50:06 UTC </td>
+                            <td class="ssid">s650ap4 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">SuspectRogue</td>
+                            <td class="ssid">POAG </td>
+                            <td>Cambium Networks Limited </td>
+                            <td>-70 </td>
+                            <td>East -1 </td>
+                            <td>Thursday, 22-Apr-2021 15:30:17 UTC </td>
+                            <td class="ssid">s1278ap1 </td>
+                        </tr>
+
+                        <tr>
+                            <td class="type">SuspectRogue</td>
+                            <td class="ssid">POAG </td>
+                            <td>Cambium Networks Limited </td>
+                            <td>-49 </td>
+                            <td>East -1 </td>
+                            <td>Tuesday, 18-Oct-2022 12:44:55 UTC </td>
+                            <td class="ssid">s1278ap3 </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+    </table>
+    <p class="footer">Executed from: /Users/rosejr/code/find_rogues/find_rogues/mailer.py</p>
+</body>
+
+</html>
