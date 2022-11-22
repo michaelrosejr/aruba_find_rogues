@@ -32,7 +32,7 @@ app = typer.Typer(help="Aruba Central Rogue AP Report")
 ssl_verify = True
 
 apiParams = {
-    "limit": 20,
+    "limit": 80,
     "offset": 0
 }
 
@@ -145,7 +145,7 @@ def email(account: str = typer.Argument("default", help="Email Report of Rogue A
 
     all_types = show_all_rogues(all_rapids_types, mail=True)
     rogues = show_rogue_ssids(all_rapids_types, mail=True)
-    print(f"\nEmailing a report of [red]{len(all_types)}[/red] rogue APs to [blue underline]{central_info[account]['to_emails']}[/blue underline]")
+    print(f"\nEmailing a report of [red]{len(all_types)}[/red] rogue APs to [blue underline]{central_info[account]['to_emails']}[/blue underline]") # type: ignore
     send_template_email('rogues_found.html.jinja2', central_info[account], found=rogues, all_types=all_types, account=account)
 
 @app.command()
