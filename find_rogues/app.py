@@ -18,11 +18,6 @@ from rich.table import Table
 with open(".env.yaml", "r") as envf:
     central_info = yaml.safe_load(envf)
 
-with open("ssids.yaml", "r") as ssidsf:
-    match_ssids = yaml.safe_load(ssidsf)
-
-# print(central_info['central_info'])
-
 logger.remove()
 logger.add(sys.stderr, level="ERROR")
 
@@ -37,6 +32,14 @@ apiParams = {
 }
 
 def get_groups(central):
+    """API call to Central to get a list of Central Groups
+
+    Args:
+        central (class): Central API object
+
+    Returns:
+        Optional[Dict]: dictionary of central groups
+    """
     apiPath = "/configuration/v2/groups"
     apiMethod = "GET"
     console = Console()
@@ -46,6 +49,14 @@ def get_groups(central):
     return resp
 
 def get_rogues(central) -> Optional[Dict]:
+    """API call to Central to get a list only of rogue APs
+
+    Args:
+        central (class): Central API object
+
+    Returns:
+        Optional[Dict]: dictionary of rogue APs
+    """
     apiPath = "/rapids/v1/rogue_aps"
     apiMethod = "GET"
     console = Console()
@@ -55,28 +66,49 @@ def get_rogues(central) -> Optional[Dict]:
 
 
 def get_suspected_rogues(central) -> Optional[Dict]:
+    """API call to Central to get a list of all suspected rogue APs
+
+    Args:
+        central (class): Central API object
+
+    Returns:
+        Optional[Dict]: dictionary of suspected rogue APs
+    """
     apiPath = "/rapids/v1/suspect_aps"
     apiMethod = "GET"
 
     return central.command(apiMethod=apiMethod, apiPath=apiPath, apiParams=apiParams)
 
-def find_ssids(fdata):
-    # List SSID returned from Aruba Central
-    # for d in fdata:
-    #     if 'ssid' in d:
-    #         print(d['ssid'])
+def find_ssids(fdata, _check_ssids):
+    """Find SSIDs that match a string
 
+    Args:
+        fdata (_type_): list of broadcasting SSIDs
+        _check_ssids (_type_): list of ssids names to check against
+
+    Returns:
+        _type_: a list of SSID that match the string
+    """
     rogue_ssid_matches = []
 
     for ea in fdata:
         # If ssid key doesn't exist, add a blank entry
         ea["ssid"] = "" if 'ssid' not in ea else ea['ssid']
-        rogue_ssid_matches.extend(ea for ea_ssid in match_ssids['sephora'] if fuzz.partial_ratio(ea['ssid'].lower(), ea_ssid) > 80)
+        rogue_ssid_matches.extend(ea for ea_ssid in _check_ssids if fuzz.partial_ratio(ea['ssid'].lower(), ea_ssid) > 80)
 
     return rogue_ssid_matches
 
 def show_all_rogues(all_rapids_types, mail=None):
-    # print(f"\nNumber of rogues: {len_all_rapids_types}")
+    """ All SSIDs tyes that match Rogue SSIDs (suspected, rogue, etc)
+
+    Args:
+        all_rapids_types (_type_): show all types of rogue APs
+        _check_ssids (_type_): Check against the SSIDs to find rogue APs based on check_ssids in .env.yaml
+        mail (_type_, optional): send email? Defaults to None (no email).
+
+    Returns:
+        _type_: a report of rogue APs tyes based on SSIDs (suspected, rogue, etc)
+    """
     if mail:
         return all_rapids_types
 
@@ -86,6 +118,7 @@ def show_all_rogues(all_rapids_types, mail=None):
 
     table.add_column("Type", justify="right", style="cyan", no_wrap=True)
     table.add_column("Rogeu SSID", style="green")
+    table.add_column("BSSID", style="yellow")
     table.add_column("Manufacture")
     table.add_column("Signal", justify="right", style="green")
     table.add_column("Group")
@@ -95,14 +128,23 @@ def show_all_rogues(all_rapids_types, mail=None):
     for ea in all_rapids_types:
         ssid = "" if 'ssid' not in ea else ea['ssid']
         dt_last_seen= pdl.parse(ea['last_seen']) #type: ignore
-        table.add_row(ea['classification'], ssid, ea['name'], str(ea['signal']), ea['group_name'], dt_last_seen.to_cookie_string(), ea['last_det_device_name']) #type: ignore
+        table.add_row(ea['classification'], ssid, ea['id'], ea['name'], str(ea['signal']), ea['group_name'], dt_last_seen.to_cookie_string(), ea['last_det_device_name']) #type: ignore
 
     console = Console()
     console.print(table)
 
-def show_rogue_ssids(all_rapids_types, mail=None):
-    # SSIDs that match Rogue SSIDs
-    matches = find_ssids(all_rapids_types)
+def show_rogue_ssids(all_rapids_types, _check_ssids, mail=None):
+    """Only show SSIDs that match Rogue SSIDs
+
+    Args:
+        all_rapids_types (_type_): show all types of rogue APs
+        _check_ssids (_type_): Check against the SSIDs to find rogue APs based on check_ssids in .env.yaml
+        mail (_type_, optional): send email? Defaults to None (no email).
+
+    Returns:
+        _type_: a report of rogue APs based on SSIDs
+    """
+    matches = find_ssids(all_rapids_types, _check_ssids)
 
     if mail:
         return matches
@@ -111,6 +153,7 @@ def show_rogue_ssids(all_rapids_types, mail=None):
 
     table.add_column("Type", justify="right", style="cyan", no_wrap=True)
     table.add_column("Rogue SSID", style="green")
+    table.add_column("BSSID", style="yellow")
     table.add_column("Manufacture")
     table.add_column("Signal", justify="right", style="green")
     table.add_column("Group")
@@ -120,7 +163,7 @@ def show_rogue_ssids(all_rapids_types, mail=None):
     for ea in matches:
         ssid = "" if 'ssid' not in ea else ea['ssid']
         dt_last_seen= pdl.parse(ea['last_seen']) #type: ignore
-        table.add_row(ea['classification'], ssid, ea['name'], str(ea['signal']), ea['group_name'], dt_last_seen.to_cookie_string(), ea['last_det_device_name']) #type: ignore
+        table.add_row(ea['classification'], ssid, ea['id'], ea['name'], str(ea['signal']), ea['group_name'], dt_last_seen.to_cookie_string(), ea['last_det_device_name']) #type: ignore
 
     console = Console()
     console.print(table)
@@ -140,24 +183,31 @@ def email(account: str = typer.Argument("default", help="Email Report of Rogue A
     """
     Email Report of Rogue APs
     """
-
+    check_ssids = central_info[account]['check_ssids']
     all_rapids_types =  get_all_rogues(account)
-
     all_types = show_all_rogues(all_rapids_types, mail=True)
-    rogues = show_rogue_ssids(all_rapids_types, mail=True)
+    rogues = show_rogue_ssids(all_rapids_types, check_ssids, mail=True)
     print(f"\nEmailing a report of [red]{len(all_types)}[/red] rogue APs to [blue underline]{central_info[account]['to_emails']}[/blue underline]") # type: ignore
     send_template_email('rogues_found.html.jinja2', central_info[account], found=rogues, all_types=all_types, account=account)
 
 @app.command()
-def show(account: str = typer.Argument("default", help="Show table of Rogue APs")):
+def show(
+        account: str = typer.Argument("default", help="Show table of Rogue APs"),
+        rev: bool = typer.Option(1, help="Reverse sort order")
+    ):
     """
     Show table of Rogue APs
     """
-
+    check_ssids = central_info[account]['check_ssids']
     all_rapids_types =  get_all_rogues(account)
 
-    show_all_rogues(all_rapids_types, mail=False)
-    show_rogue_ssids(all_rapids_types, mail=False)
+    if rev:
+        show_rogue_ssids(all_rapids_types,  check_ssids, mail=False)
+        show_all_rogues(all_rapids_types, mail=False)
+    else:
+        show_all_rogues(all_rapids_types, mail=False)
+        show_rogue_ssids(all_rapids_types, check_ssids, mail=False)
+
 
 def main(name: str):
     """
@@ -169,8 +219,10 @@ def main(name: str):
             ea['human_first_seen'] = pdl.parse(ea['first_seen']).to_cookie_string() #type: ignore
 
     all_types = show_all_rogues(all_rapids_types, mail=True)
-    rogues = show_rogue_ssids(all_rapids_types, mail=True)
     account = "default"
+    check_ssids = central_info[account]['check_ssids']
+
+    rogues = show_rogue_ssids(all_rapids_types, check_ssids, mail=True)
     central = ArubaCentralBase(central_info=central_info[account],
                         ssl_verify=ssl_verify)
     central.logger.setLevel(logging.ERROR) #type: ignore
