@@ -14,6 +14,7 @@ from pycentral.base import ArubaCentralBase
 from rich import print
 from rich.console import Console
 from rich.table import Table
+from savedata import save_to_file
 
 with open(".env.yaml", "r") as envf:
     central_info = yaml.safe_load(envf)
@@ -193,7 +194,8 @@ def email(account: str = typer.Argument("default", help="Email Report of Rogue A
 @app.command()
 def show(
         account: str = typer.Argument("default", help="Show table of Rogue APs"),
-        rev: bool = typer.Option(1, help="Reverse sort order")
+        rev: bool = typer.Option(1, help="Reverse sort order"),
+        save: bool = typer.Option(0, help="Save to file")
     ):
     """
     Show table of Rogue APs
@@ -207,6 +209,11 @@ def show(
     else:
         show_all_rogues(all_rapids_types, mail=False)
         show_rogue_ssids(all_rapids_types, check_ssids, mail=False)
+
+    if save:
+        all_types = show_all_rogues(all_rapids_types, mail=True)
+        rogues = show_rogue_ssids(all_rapids_types, check_ssids, mail=True)
+        save_to_file(template='rogues_found.html.jinja2', rogues=rogues, found=all_types)
 
 
 def main(name: str):

@@ -38,9 +38,7 @@ def send_template_email(template, message_details, found, all_types, account):
         autoescape=select_autoescape(['html', 'xml'])
     )
     template = env.get_template(template)
-    # send_email(to, subj, template.render(**kwargs))
-    # with open("index.html", "w") as f:
-    #     f.write(template.render(body))
+
     sendmail(message_details, account, html_template_content=template.render(body))
 
 if __name__ == "__main__":
@@ -52,10 +50,8 @@ if __name__ == "__main__":
         "from_email": account['from_email'],
         "to_emails": account['to_emails'],
         "subject": "Wireless Rogue AP Alert",
+        "sendgrid_api_key": account['sendgrid_api_key']
     }
-    # sendmail("test")
-    print(account['sendgrid_api_key'])
-    print(message_details)
+
     rdata = []
-    # sendmail(message_details, account)
     send_template_email('rogues_found.html.jinja2', message_details, rdata, rdata, account=account)
